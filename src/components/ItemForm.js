@@ -1,39 +1,48 @@
-import React from "react";
+import React, { useState } from "react";
 import { v4 as uuid } from "uuid";
 
-function ItemForm({ onItemFormSubmit, formData, setFormData }) {
-  function handleChange(e) {
-    const name = e.target.name;
-    const category = e.target.value;
+function ItemForm({ onItemFormSubmit }) {
+  const [name, setName] = useState("");
+  const [category, setCategory] = useState("Produce");
 
-    setFormData({
-      ...formData,
-      [name]: category,
-    });
+  function handleNameChange(e) {
+    setName(e.target.value);
+  }
+
+  function handleCategoryChange(e) {
+    setCategory(e.target.value);
+  }
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    onItemFormSubmit(newItem);
   }
 
   const newItem = {
     id: uuid(), // the `uuid` library can be used to generate a unique id
-    name: formData.name,
-    category: formData.category,
+    name: name,
+    category: category,
   };
 
   return (
-    // This did NOT work -- why?? onSubmit={(e, newItem) => onItemFormSubmit(e, newItem)
-    <form className="NewItem" onSubmit={(e) => onItemFormSubmit(e, newItem)}>
+    <form className="NewItem" onSubmit={handleSubmit}>
       <label>
         Name:
         <input
           type="text"
           name="name"
-          onChange={handleChange}
-          value={formData.name}
+          onChange={handleNameChange}
+          value={name}
         />
       </label>
 
       <label>
         Category:
-        <select name="category" onChange={handleChange} value={formData.value}>
+        <select
+          name="category"
+          onChange={handleCategoryChange}
+          value={category}
+        >
           <option value="Produce">Produce</option>
           <option value="Dairy">Dairy</option>
           <option value="Dessert">Dessert</option>

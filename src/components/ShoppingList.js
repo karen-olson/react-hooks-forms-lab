@@ -19,9 +19,7 @@ function ShoppingList({ items, setItems }) {
     setSearch(event.target.value);
   }
 
-  function onItemFormSubmit(e, newItem) {
-    e.preventDefault();
-    // new item was undefined --> see ItemForm line 25
+  function onItemFormSubmit(newItem) {
     const updatedItems = [...items, newItem];
     setItems(updatedItems);
   }
